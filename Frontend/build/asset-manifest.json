@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/App4UCU/static/css/main.78d4b095.chunk.css",
+    "main.js": "/App4UCU/static/js/main.bbd32509.chunk.js",
+    "main.js.map": "/App4UCU/static/js/main.bbd32509.chunk.js.map",
+    "runtime-main.js": "/App4UCU/static/js/runtime-main.63c90740.js",
+    "runtime-main.js.map": "/App4UCU/static/js/runtime-main.63c90740.js.map",
+    "static/js/2.490188f8.chunk.js": "/App4UCU/static/js/2.490188f8.chunk.js",
+    "static/js/2.490188f8.chunk.js.map": "/App4UCU/static/js/2.490188f8.chunk.js.map",
+    "index.html": "/App4UCU/index.html",
+    "precache-manifest.12a572eee2ea44f40ffafb5237a85b0c.js": "/App4UCU/precache-manifest.12a572eee2ea44f40ffafb5237a85b0c.js",
+    "service-worker.js": "/App4UCU/service-worker.js",
+    "static/css/main.78d4b095.chunk.css.map": "/App4UCU/static/css/main.78d4b095.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.63c90740.js",
+    "static/js/2.490188f8.chunk.js",
+    "static/css/main.78d4b095.chunk.css",
+    "static/js/main.bbd32509.chunk.js"
+  ]
+}
