@@ -1,14 +1,15 @@
 #include <ESP8266WiFi.h>
 #include<SPI.h>
-
+#include <Arduino.h>
 // Replace with your network credentials
 const char* ssid = "App4UCU";
 const char* password = "WIFIPASSWORD";
-volatile byte Slavereceived
+volatile byte Slavereceived;
 
 
 String page = "";
 int LEDPin = 13;
+
 void setup(void){
   //the HTML of the web page
  
@@ -19,13 +20,15 @@ void setup(void){
     delay(500);
     Serial.print(".");
   }
- SPI.attachInterrupt();
-}
- ISR (SPI_STC_vect){                       //Inerrrput routine function 
-  Slavereceived = SPDR;                   // Value received from master if store in variable slavereceived
-  Serial.print(Slavereceived);
+SPI.begin();
 }
 
+
+
 void loop(void){
-  
+  if(digitalRead(15)== LOW){
+  Slavereceived =  SPI.transfer(0);
+  delay(100);
+  SPI.transfer(Slavereceived);
+  }
 }
