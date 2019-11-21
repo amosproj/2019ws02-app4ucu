@@ -2,6 +2,7 @@
   "name": "app4ucu",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://freaksN.github.io/App4UCU/",
   "dependencies": {
     "@material-ui/core": "^4.6.0",
     "bootstrap": "^4.3.1",
@@ -17,8 +18,7 @@
     "test": "react-scripts test",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "eject": "react-scripts eject",
-	"dist": "awot-static"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,15 +36,6 @@
     ]
   },
   "devDependencies": {
-    "awot-scripts": "0.0.33"
-  }, 
-   "awot-static": {
-    "sources": "./build",
-    "indexFile": "index.html",
-    "sketchDir": "./ArduinoReactWebServer",
-    "exclude": [
-      "*.map",
-      "service-worker.js"
-    ]
+    "gh-pages": "^2.1.1"
   }
 }

@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.19dee4f6.chunk.css",
-    "main.js": "/static/js/main.840aed92.chunk.js",
-    "main.js.map": "/static/js/main.840aed92.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.092a8e06.js",
-    "runtime-main.js.map": "/static/js/runtime-main.092a8e06.js.map",
-    "static/js/2.88edd148.chunk.js": "/static/js/2.88edd148.chunk.js",
-    "static/js/2.88edd148.chunk.js.map": "/static/js/2.88edd148.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.21490dcb839f04bfc26c9242483b1bd2.js": "/precache-manifest.21490dcb839f04bfc26c9242483b1bd2.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.19dee4f6.chunk.css.map": "/static/css/main.19dee4f6.chunk.css.map"
+    "main.css": "/App4UCU/static/css/main.78d4b095.chunk.css",
+    "main.js": "/App4UCU/static/js/main.bbd32509.chunk.js",
+    "main.js.map": "/App4UCU/static/js/main.bbd32509.chunk.js.map",
+    "runtime-main.js": "/App4UCU/static/js/runtime-main.63c90740.js",
+    "runtime-main.js.map": "/App4UCU/static/js/runtime-main.63c90740.js.map",
+    "static/js/2.490188f8.chunk.js": "/App4UCU/static/js/2.490188f8.chunk.js",
+    "static/js/2.490188f8.chunk.js.map": "/App4UCU/static/js/2.490188f8.chunk.js.map",
+    "index.html": "/App4UCU/index.html",
+    "precache-manifest.12a572eee2ea44f40ffafb5237a85b0c.js": "/App4UCU/precache-manifest.12a572eee2ea44f40ffafb5237a85b0c.js",
+    "service-worker.js": "/App4UCU/service-worker.js",
+    "static/css/main.78d4b095.chunk.css.map": "/App4UCU/static/css/main.78d4b095.chunk.css.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.092a8e06.js",
-    "static/js/2.88edd148.chunk.js",
-    "static/css/main.19dee4f6.chunk.css",
-    "static/js/main.840aed92.chunk.js"
+    "static/js/runtime-main.63c90740.js",
+    "static/js/2.490188f8.chunk.js",
+    "static/css/main.78d4b095.chunk.css",
+    "static/js/main.bbd32509.chunk.js"
   ]
 }
