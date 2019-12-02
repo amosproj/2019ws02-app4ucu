@@ -5,15 +5,14 @@
 
 .sliderHeader{
     margin-top: 2%;
-    margin-left: 10%;
+    margin-left: 5%;
     width: 40%;
+    display: inline-block;
 }
 
 
 .sliderValue{
-    position: absolute;
-    left: 53%;
-    top: 41%;
+    margin-left : 25px;
 }
 
 

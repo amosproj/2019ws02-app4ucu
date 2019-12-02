@@ -1,0 +1,3 @@
+SSID = "nodeMCU'
+Password = '12345678'
+Webserver IP Address ='192.168.4.1'

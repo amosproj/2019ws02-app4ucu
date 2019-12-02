@@ -31,10 +31,10 @@ function switchButtonChange() {
 }
 
 export default function Ucu() {
+
   const [sliderValue, setSliderValue] = useState(30);
 
   function handleChange(event, value) {
-    // sliderValue = value.value;
     setSliderValue(value);
     console.log("Value is " + value, "Type is " + typeof (value));
   }
@@ -72,6 +72,10 @@ export default function Ucu() {
         </div>
         <span className="sliderValue">Slider value {sliderValue}%</span>
       </h2>
+
+      <div className="xml">
+    HERE is the place for the XML table, upload, etc.
+      </div>
     </div>
   );
 }
