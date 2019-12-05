@@ -1,3 +1,3 @@
-SSID = "nodeMCU'
+SSID = 'App4UCU'
 Password = '12345678'
 Webserver IP Address ='192.168.4.1'
