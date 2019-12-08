@@ -1,0 +1,69 @@
+<html width=100>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="MSThemeCompatible" content="yes">
+    <hta:application border="thick" innerborder="no" >
+
+    <title>Lastenfahrrad</title>
+
+    <style type="text/css">
+      body { font-family: helvetica; }
+      button { width: 180px; }
+      h2 { font-size: 20px; }
+    </style>
+
+    <script type="text/javascript">
+
+      // Windows XP workaround: wait 100ms before resizing window
+      // see:
+      // - http://support.microsoft.com/kb/904947/en-us
+      // - http://stackoverflow.com/questions/464679/access-is-denied-by-executing-hta-file-with-jscript-on-windows-xp-x64
+      window.onload = function() {
+        window.focus();
+        setTimeout(function() {
+          window.resizeTo(400, 400);
+          window.moveTo(screen.width/2 - document.body.clientWidth/2, 
+                        screen.height/2 - document.body.clientHeight/2);
+        }, 100);
+      }
+
+      var go = function(command) {
+        var $ = function(id) { return document.getElementById(id); };
+        var shell = new ActiveXObject("WScript.Shell");
+        
+        var checkedValue = function(radioGroupName) {
+        	var rads = document.getElementsByName(radioGroupName),
+        		i;
+        	for (i=0; i < rads.length; i++)
+        		if (rads[i].checked)
+        			return rads[i].value;
+        	return null;
+        }
+        
+        shell.Run("shell.bat" +
+                  " " + "no" +
+                  " " + command +
+                  " 0000" +
+                  " " + $("enable_multi_process").value
+                  )
+      }
+    </script>
+  </head>
+  <body scroll="no">
+
+    <h2>AMOS / Dist launch</h2>
+    
+    <button type="button" title="build_all_libs"   onclick="go('build_all_libs'); ">Build all</button>
+    <button type="button" title="build_AMOS_APP4UCU"   onclick="go('build_AMOS_APP4UCU'); ">Build AMOS_APP4UCU lib</button>
+    <button type="button" title="shell"         onclick="go('shell');       ">Shell</button>	
+    <br />
+    <br />
+
+    <label for="enable_multi_process">Multi Processing</label>    
+    <select id="enable_multi_process">
+      <option value="-j">Yes</option>
+      <option value="-j1">No</option>
+    </select>
+
+  </body>
+</html>

@@ -1,0 +1,22 @@
+
+### your module ###
+
+Name: AMOS_APP4UCU.c/.h
+SPI-Driver: UCU_AMOS\23_SW_Construction\23c_Application\Bsw\includes\fifo_spi.h
+connection to workload: UCU_AMOS\23_SW_Construction\23c_Application\Appl\rte\Rte_AMOS_APP4UCU.h (e.g. Rte_Read_toApp_test_u8(&tmp_u8) gets signal "test_u8" from port "toApp")
+
+### build ###
+
+- Compiler and license
+
+1. get the Compiler from follwing link and install it to C:\HIGHTEC
+https://free-entry-toolchain.hightec-rt.com/
+2. copy license.lic to C:\HIGHTEC\licenses
+
+- Build
+--> UCU_AMOS\23_SW_Construction\23c_Application\AMOS.hta
+1. build your lib with "Build AMOS_APP4UCU lib"
+2. build firmware with "Build all"
+
+### download firmware to UCU ###
+t.b.d
