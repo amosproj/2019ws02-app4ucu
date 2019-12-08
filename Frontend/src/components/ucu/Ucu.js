@@ -74,7 +74,11 @@ export default function Ucu() {
       </h2>
 
       <div className="xml">
-    HERE is the place for the XML table, upload, etc.
+        <form id="xmlForm" name="xmlForm">
+          <input id="input" type="file"></input> <input type="submit" className="submit"></input>
+         </form>
+          <table id="demo"></table>
+          <script type="text/javascript" src="XML_upload.js"></script>
       </div>
     </div>
   );

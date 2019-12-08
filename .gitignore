@@ -1,2 +1,3 @@
 node_modules
-*.o
+*.onode_modules
+.vs
