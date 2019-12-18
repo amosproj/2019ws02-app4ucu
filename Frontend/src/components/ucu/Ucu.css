@@ -12,18 +12,40 @@
 
 
 .sliderValue{
-    margin-left : 25px;
+    margin-left : 20%
+}
+
+.floatValueDiv{
+    margin-top: 2%;
+    margin-left: 5%;
+    width: 40%;
+    display: inline-block;
+}
+
+.sliderFloatValue{
+    margin-left: 20%;
+}
+
+.downloadXML{
+    margin-left : 40%;
+    margin-top : 2%;
+}
+
+.normalField {
+    margin-top: 2%;
+    margin-left: 10%;
 }
 
 table,th,td {
-  border : 1px solid black;
-  border-collapse: collapse;
+    border : 1px solid black;
+    border-collapse: collapse;
 }
 th,td {
-  padding: 5px;
-}
-.submit{
-  background-color: white;
-  color: black;
+    padding: 5px;
 }
 
+
+.submit{
+    background-color: white;
+    color: black;
+}
