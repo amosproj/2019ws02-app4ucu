@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Slider, TextField} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Button, Slider, TextField } from '@material-ui/core';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 import './Ucu.css';
 
@@ -42,16 +42,52 @@ export default function Ucu() {
     const [someFloatValue, setSomeFloatValue] = useState(1.5);
 
 
+
+
+    async function fetchSwitchButtonData() {
+        fetch('/sb')
+            .then(res => res.text())
+    }
+
+    async function fetchSwitchButtonPutData() {
+        fetch('/sb', {
+            method: 'PUT', body: switchButton ? '1': '0' 
+        })
+            .then(res => res.text())
+    }
+
+    
+
+    
+    async function fetchSliderValueData() {
+        fetch('/sv')
+            .then(res => res.text())
+    }
+
+    async function fetchSliderValuePutData() {
+        let loopbackValue = sliderValue.toString();
+        fetch('/sv', {
+            method: 'PUT', body: loopbackValue
+        })
+            .then(res => res.text())
+    }
+
+
     function handleNormalFieldInteger(event, value) {
         setInputFieldInteger(event.target.value);
     }
-  function handleChange(event, value) {
+
+    function handleChange(event, value) {
         setSliderValue(value);
     }
 
     useEffect(() => {
         console.log("Switch button is turned " + (switchButton ? 'on' : 'off'));
         console.log('Slider value ' + sliderValue);
+        fetchSwitchButtonData();
+        fetchSwitchButtonPutData();
+        fetchSliderValueData();
+        fetchSliderValuePutData();
     });
 
     function handleSwitchButton() {
@@ -71,9 +107,9 @@ export default function Ucu() {
         var xml = builder.create('config')
             .ele('types').up()
             .ele('componenents')
-            .ele('component', {'name': 'AMOS_APP4UCU'})
+            .ele('component', { 'name': 'AMOS_APP4UCU' })
             .ele('ports')
-            .ele('receiver', {'name': 'toApp'})
+            .ele('receiver', { 'name': 'toApp' })
             .ele('element', {
                 'name': 'test_u8',
                 'init': '0',
@@ -81,7 +117,8 @@ export default function Ucu() {
                 'max': '0',
                 'type': 'uint8'
             }, sliderValue).up()
-            .ele('element', {'name': 'test_i8',
+            .ele('element', {
+                'name': 'test_i8',
                 'init': '0',
                 'min': '0',
                 'max': '0',
@@ -129,36 +166,38 @@ export default function Ucu() {
                 'max': '0',
                 'type': 'boolean',
             }, switchButton).up()
-            .end({pretty: true});
+            .end({ pretty: true });
         console.log(xml)
 
         //we can use File as well but IE and Edge do not support that so it is better to use Blob because it is supported
         var FileSaver = require('file-saver');
-        var blob = new Blob([xml], {type: "application/xml;charset=utf-8"});
+        var blob = new Blob([xml], { type: "application/xml;charset=utf-8" });
         FileSaver.saveAs(blob, "AMOS_APP4UCU.xml");
     }
 
 
+
+
     return (
         <div className="Ucu">
-            <h1 className="welcomeHeader">This is the webserver page for the UCU microcontroller. <br/></h1>
+            <h1 className="welcomeHeader">This is the webserver page for the UCU microcontroller. <br /></h1>
             <form onSubmit={handleSubmit}>
                 <div className="switchButtonDiv">
                     <h2>
                         Turn On and Off<BootstrapSwitchButton
-                        checked={switchButton}
-                        onstyle='success'
-                        size='sm'
-                        offstyle='danger'
-                        onChange={handleSwitchButton}
-                    />
+                            checked={switchButton}
+                            onstyle='success'
+                            size='sm'
+                            offstyle='danger'
+                            onChange={handleSwitchButton}
+                        />
                     </h2>
                 </div>
                 <h2>
                     <div className="normalField">
                         <h2>
                             <TextField id="normalField" label="Input Integer Value here" variant="outlined"
-                                       InputLabelProps={{style: {color: '#DBD5D5'},}}  onChange={handleNormalFieldInteger}>
+                                InputLabelProps={{ style: { color: '#DBD5D5' }, }} onChange={handleNormalFieldInteger}>
                             </TextField>
                         </h2>
                     </div>

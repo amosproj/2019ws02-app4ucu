@@ -7,6 +7,27 @@
 
 WiFiServer server(80);
 Application app;
+bool switchButtonOn;
+String intValue;
+
+ void readSwitchButtonValue(Request &req, Response &res) {
+ res.print(switchButtonOn);
+}
+
+ void updateSwitchButtonValue(Request &req, Response &res) {
+  switchButtonOn = (req.read() != '0');
+  return readSwitchButtonValue(req, res);
+}
+
+void readIntegerValue(Request &req, Response &res) {
+  res.println(intValue);
+}
+
+ void updateIntegerValue(Request &req, Response &res) {
+  intValue = req.read();
+  return readIntegerValue(req, res);
+}
+
 
 void setup() {
   Serial.begin(115200);
@@ -26,9 +47,15 @@ void setup() {
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
   Serial.println(IP);
-  
-  app.route(staticFiles());
 
+  
+// app.get("/sb", &readSwitchButtonValue);
+ app.get("/sv", &readIntegerValue);
+ 
+// app.put("/sb", &updateSwitchButtonValue);
+ app.put("/sv", &updateIntegerValue);
+ 
+  app.route(staticFiles());
   server.begin();
 }
 
