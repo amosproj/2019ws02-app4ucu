@@ -34,12 +34,38 @@ const sliderFloatValues = [
 ];
 
 
+
+
 export default function Ucu() {
 
     const [inputFieldInteger, setInputFieldInteger] = useState(44);
     const [sliderValue, setSliderValue] = useState(30);
     const [switchButton, setSwitchButton] = useState(true);
     const [someFloatValue, setSomeFloatValue] = useState(1.5);
+    const [xmlUpload, setXmlUpload] = useState(null);
+    const [showElement, setShowElement] = useState(false);
+
+    function uploadXMLHandler(e) {
+        setXmlUpload(e.target.files[0]);
+    }
+
+
+
+    useEffect(() => {
+        if (xmlUpload != null) {
+            var fileReader = new FileReader();
+            fileReader.onload = () => {
+                if (fileReader.result.includes("test_b")) {
+                    setShowElement(true);
+                } else {
+                    setShowElement(false);
+                }
+            };
+            fileReader.readAsText(xmlUpload);
+
+        }
+    });
+
 
 
 
@@ -51,14 +77,14 @@ export default function Ucu() {
 
     async function fetchSwitchButtonPutData() {
         fetch('/sb', {
-            method: 'PUT', body: switchButton ? '1': '0' 
+            method: 'PUT', body: switchButton ? '1' : '0'
         })
             .then(res => res.text())
     }
 
-    
 
-    
+
+
     async function fetchSliderValueData() {
         fetch('/sv')
             .then(res => res.text())
@@ -104,12 +130,69 @@ export default function Ucu() {
         console.log(someFloatValue);
 
         var builder = require('xmlbuilder');
-        var xml = builder.create('config')
+        var xml = builder.create('config', { encoding: 'utf-8' })
             .ele('types').up()
             .ele('componenents')
             .ele('component', { 'name': 'AMOS_APP4UCU' })
             .ele('ports')
             .ele('receiver', { 'name': 'toApp' })
+            .ele('element', {
+                'name': 'test_u8',
+                'init': '0',
+                'min': '0',
+                'max': '0',
+                'type': 'uint8'
+            }, sliderValue).up()
+            .ele('element', {
+                'name': 'test_i8',
+                'init': '0',
+                'min': '0',
+                'max': '0',
+                'type': 'sint8'
+            }, sliderValue).up()
+            .ele('element', {
+                'name': 'test_u16',
+                'init': '0',
+                'min': '0',
+                'max': '0',
+                'type': 'uint16'
+            }, sliderValue).up()
+            .ele('element', {
+                'name': 'test_i16',
+                'init': '0',
+                'min': '0',
+                'max': '0',
+                'type': 'sint16'
+            }, sliderValue).up()
+            .ele('element', {
+                'name': 'test_u32',
+                'init': '0',
+                'min': '0',
+                'max': '0',
+                'type': 'uint32'
+            }, inputFieldInteger).up()
+            .ele('element', {
+                'name': 'test_i32',
+                'init': '0',
+                'min': '0',
+                'max': '0',
+                'type': 'sint32'
+            }, inputFieldInteger).up()
+            .ele('element', {
+                'name': 'test_r32',
+                'init': '0',
+                'min': '0',
+                'max': '0',
+                'type': 'float32'
+            }, someFloatValue).up()
+            .ele('element', {
+                'name': 'test_b',
+                'init': '0',
+                'min': '0',
+                'max': '0',
+                'type': 'boolean',
+            }, switchButton).up().up()
+            .ele('sender', { 'name': 'fromApp' })
             .ele('element', {
                 'name': 'test_u8',
                 'init': '0',
@@ -175,24 +258,58 @@ export default function Ucu() {
         FileSaver.saveAs(blob, "AMOS_APP4UCU.xml");
     }
 
+    const style = {
+  
+};
+
 
 
 
     return (
         <div className="Ucu">
             <h1 className="welcomeHeader">This is the webserver page for the UCU microcontroller. <br /></h1>
+            <div className="uploadXML">
+                <input
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="raised-button-file"
+                    multiple
+                    type="file"
+                    onChange={uploadXMLHandler}
+                />
+                <label htmlFor="raised-button-file">
+                    <Button
+                    style = {{
+                        background: 'linear-gradient(45deg, #be2a92bd 30%, #FF8E53 90%)',
+                        borderRadius: 3,
+                        border: 0,
+                        color: 'white',
+                        height: 48,
+                        padding: '0 30px',
+                        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+                    }}
+                     variant="contained" component="span" className="uploadButton">
+                        Upload
+                    </Button>
+                </label>
+            </div>
             <form onSubmit={handleSubmit}>
-                <div className="switchButtonDiv">
-                    <h2>
-                        Turn On and Off<BootstrapSwitchButton
-                            checked={switchButton}
-                            onstyle='success'
-                            size='sm'
-                            offstyle='danger'
-                            onChange={handleSwitchButton}
-                        />
-                    </h2>
-                </div>
+                {showElement ?
+                    <div className="switchButtonDiv">
+                        <h2>
+                            Turn On and Off<BootstrapSwitchButton
+                                checked={switchButton}
+                                onstyle='success'
+                                size='sm'
+                                offstyle='danger'
+                                onChange={handleSwitchButton}
+                            />
+                        </h2>
+                    </div>
+
+                    : null
+                }
+
                 <h2>
                     <div className="normalField">
                         <h2>
@@ -239,19 +356,21 @@ export default function Ucu() {
                 </div>
 
                 <div className="downloadXML">
-                    <Button variant="contained" type={"submit"} color="secondary">
+                    <Button 
+                      style = {{
+                        background: 'linear-gradient(45deg, #FF8E53 30%, #be2a92bd 90%)',
+                        borderRadius: 3,
+                        border: 0,
+                        color: 'white',
+                        height: 48,
+                        padding: '0 30px',
+                        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+                    }}
+                    variant="contained"  type={"submit"} color="secondary">
                         Download XML
                     </Button>
                 </div>
             </form>
-
-            {/*<div className="xml">*/}
-            {/*  <form id="xmlForm" name="xmlForm">*/}
-            {/*    <input id="input" type="file"></input> <input type="submit" className="submit"></input>*/}
-            {/*   </form>*/}
-            {/*    <table id="demo"></table>*/}
-            {/*    <script type="text/javascript" src="XML_upload.js"></script>*/}
-            {/*</div>*/}
         </div>
     );
 }

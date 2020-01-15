@@ -49,10 +49,10 @@ void setup() {
   Serial.println(IP);
 
   
-// app.get("/sb", &readSwitchButtonValue);
+ app.get("/sb", &readSwitchButtonValue);
  app.get("/sv", &readIntegerValue);
  
-// app.put("/sb", &updateSwitchButtonValue);
+ app.put("/sb", &updateSwitchButtonValue);
  app.put("/sv", &updateIntegerValue);
  
   app.route(staticFiles());
