@@ -43,7 +43,10 @@ void setup() {
     //channel: Wi-Fi channel number (1-13)
     //ssid_hidden: (0 = broadcast SSID, 1 = hide SSID)
     //max_connection: maximum simultaneous connected clients (1-4)
-
+  IPAddress Ip(192, 168, 10, 10);
+  IPAddress NMask(255, 255, 255, 0);
+  WiFi.softAPConfig(Ip, Ip, NMask);
+  delay(100);
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
   Serial.println(IP);
