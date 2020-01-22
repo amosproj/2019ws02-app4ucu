@@ -62,5 +62,9 @@ void AMOS_APP4UCU_AMOS_APP4UCU_Init(void)
  * ===================================================================================================================*/ 
 void AMOS_APP4UCU_AMOS_APP4UCU_Cyclic(void)
 {
-    spi_FiFoAddTx(0xAFFECAFE);
+    void spi_FiFoClearRx(void);
+    void spi_FiFoClearTx(void);
+    uint32_t indata=0;
+    spi_FiFoGetRx(&indata);
+    spi_FiFoAddTx(indata);
 }

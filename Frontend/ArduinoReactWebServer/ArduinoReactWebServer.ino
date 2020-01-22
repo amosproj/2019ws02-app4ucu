@@ -4,7 +4,48 @@
 
 #define WIFI_SSID "App4UCU"
 #define WIFI_PASSWORD "12345678"
+// spi includes, definitions and globals start
+#include <stdio.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <string.h>
 
+#include   "freertos/FreeRTOS.h"
+#include   "freertos/task.h"
+#include   "freertos/semphr.h"
+#include   "freertos/queue.h"
+
+#include   "lwip/sockets.h"
+#include   "lwip/dns.h"
+#include   "lwip/netdb.h"
+#include   "lwip/igmp.h"
+
+#include   "esp_wifi.h"
+#include   "esp_system.h"
+#include   "esp_event.h"
+#include   "nvs_flash.h"
+#include   "soc/rtc_periph.h"
+#include   "driver/spi_slave.h"
+#include   "esp_log.h"
+#include   "esp_spi_flash.h"
+#include   "driver/gpio.h"
+
+#define GPIO_MOSI 23
+#define GPIO_MISO 19
+#define GPIO_SCLK 18
+#define GPIO_CS 5
+
+#define RCV_HOST    HSPI_HOST
+#define DMA_CHAN    2
+ //WORD_ALIGNED_ATTR char sendbuf[129]="";
+ uint32_t sendData=0;
+ uint32_t recvData=0;
+   uint32_t* sendbuf= &sendData;
+     uint32_t* recvbuf=& recvData ;
+     int n=0;
+      spi_slave_transaction_t t;
+       esp_err_t ret;
+// spi includes, definitions and globals end
 WiFiServer server(80);
 Application app;
 bool switchButtonOn;
@@ -25,6 +66,7 @@ void readIntegerValue(Request &req, Response &res) {
 
  void updateIntegerValue(Request &req, Response &res) {
   intValue = req.read();
+  sendData = intValue.toInt();
   return readIntegerValue(req, res);
 }
 
@@ -59,6 +101,27 @@ void setup() {
  app.put("/sv", &updateIntegerValue);
  
   app.route(staticFiles());
+  //Configuration for the SPI bus
+    spi_bus_config_t buscfg={
+        mosi_io_num : GPIO_MOSI,
+        miso_io_num : GPIO_MISO,
+        sclk_io_num : GPIO_SCLK,
+        quadwp_io_num : -1,
+        quadhd_io_num : -1,
+    };
+
+    //Configuration for the SPI slave interface
+
+      spi_slave_interface_config_t slvcfg;
+        slvcfg.mode =0;
+        slvcfg.spics_io_num = GPIO_CS;
+        slvcfg.queue_size = 3;
+        slvcfg.flags = 0;
+
+    //Initialize SPI slave interface
+    ret=spi_slave_initialize(RCV_HOST, &buscfg, &slvcfg, DMA_CHAN);
+    assert(ret==ESP_OK);
+ memset(&t, 0, sizeof(t));
   server.begin();
 }
 
@@ -69,4 +132,12 @@ void loop() {
     Serial.println("New Client has connected.");   
     app.process(&client);
   }
+        t.length=32;
+        t.tx_buffer=sendbuf;
+        t.rx_buffer=recvbuf;
+        recvData=0;
+        //sendData=7;
+        ret=spi_slave_transmit(RCV_HOST, &t, portMAX_DELAY);
+        intValue=String(recvData);
+         Serial.println(recvData,HEX);
 }
