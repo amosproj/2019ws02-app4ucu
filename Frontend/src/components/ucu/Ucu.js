@@ -44,6 +44,8 @@ export default function Ucu() {
     const [someFloatValue, setSomeFloatValue] = useState(1.5);
     const [xmlUpload, setXmlUpload] = useState(null);
     const [showElement, setShowElement] = useState(false);
+    const [showFloatSlider, setShowFloatSlider] = useState(false);
+    const [showIntegerSlider, setShowIntegerSlider] = useState(false);
 
     function uploadXMLHandler(e) {
         setXmlUpload(e.target.files[0]);
@@ -54,11 +56,23 @@ export default function Ucu() {
     useEffect(() => {
         if (xmlUpload != null) {
             var fileReader = new FileReader();
+            var tmp = false;
             fileReader.onload = () => {
                 if (fileReader.result.includes("test_b")) {
                     setShowElement(true);
                 } else {
                     setShowElement(false);
+                }
+                if (fileReader.result.includes("test_r32")) {
+                    setShowFloatSlider(true);
+                } else {
+                    setShowFloatSlider(false);
+                }
+                ["test_u8","test_i8","test_u16","test_i16","test_u32","test_i32"].forEach(elem => { if(fileReader.result.includes(elem)) tmp = true})
+                if (tmp) {
+                    setShowIntegerSlider(true);
+                } else {
+                    setShowIntegerSlider(false);
                 }
             };
             fileReader.readAsText(xmlUpload);
@@ -309,51 +323,58 @@ export default function Ucu() {
 
                     : null
                 }
-
-                <h2>
-                    <div className="normalField">
+                {showIntegerSlider ?
+                    <div className="Integerslider">
                         <h2>
-                            <TextField id="normalField" label="Input Integer Value here" variant="outlined"
-                                InputLabelProps={{ style: { color: '#DBD5D5' }, }} onChange={handleNormalFieldInteger}>
-                            </TextField>
+                            <div className="normalField">
+                                <h2>
+                                    <TextField id="normalField" label="Input Integer Value here" variant="outlined"
+                                        InputLabelProps={{ style: { color: '#DBD5D5' }, }} onChange={handleNormalFieldInteger}>
+                                    </TextField>
+                                </h2>
+                            </div>
+                            <div className="sliderHeader">Slide left or write by clicking on the point
+                                <Slider
+                                    defaultValue={30}
+                                    aria-labelledby="discrete-slider"
+                                    valueLabelDisplay="auto"
+                                    step={1}
+                                    color='primary'
+                                    track='inverted'
+                                    onChange={handleChange}
+                                    marks={sliderIntValues}
+                                    min={0}
+                                    max={100}>
+                                </Slider>
+                            </div>
                         </h2>
+                        <div>
+                            <span className="sliderValue">Slider Integer Value {sliderValue}%</span>
+                        </div>
                     </div>
-                    <div className="sliderHeader">Slide left or write by clicking on the point
+                    : null
+                }
+                {showFloatSlider ?
+                    <div className="floatValueDiv">
                         <Slider
-                            defaultValue={30}
+                            defaultValue={1.5}
                             aria-labelledby="discrete-slider"
                             valueLabelDisplay="auto"
-                            step={1}
+                            step={0.1}                                
                             color='primary'
                             track='inverted'
-                            onChange={handleChange}
-                            marks={sliderIntValues}
-                            min={0}
-                            max={100}>
+                            onChange={handleFloatValue}
+                             marks={sliderFloatValues}
+                            min={0.0}
+                            max={10.0}>
                         </Slider>
+                        <div>
+                            <span className="sliderFloatValue">Slider Float Value {someFloatValue}</span>
+                        </div>
                     </div>
-                </h2>
-                <div>
-                    <span className="sliderValue">Slider Integer Value {sliderValue}%</span>
-                </div>
-
-                <div className="floatValueDiv">
-                    <Slider
-                        defaultValue={1.5}
-                        aria-labelledby="discrete-slider"
-                        valueLabelDisplay="auto"
-                        step={0.1}
-                        color='primary'
-                        track='inverted'
-                        onChange={handleFloatValue}
-                        marks={sliderFloatValues}
-                        min={0.0}
-                        max={10.0}>
-                    </Slider>
-                </div>
-                <div>
-                    <span className="sliderFloatValue">Slider Float Value {someFloatValue}</span>
-                </div>
+                    : null
+                }
+                
 
                 <div className="downloadXML">
                     <Button 
