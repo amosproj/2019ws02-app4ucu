@@ -5,8 +5,8 @@ import './Ucu.css';
 
 const sliderIntValues = [
     {
-        value: 0,
-        label: '0',
+        value: -100,
+        label: '-100',
     },
     {
         value: 50,
@@ -18,20 +18,6 @@ const sliderIntValues = [
     },
 ];
 
-const sliderFloatValues = [
-    {
-        value: 0.0,
-        label: '0.0',
-    },
-    {
-        value: 5.0,
-        label: '5.0',
-    },
-    {
-        value: 10.0,
-        label: '10.0',
-    },
-];
 
 export default function Ucu() {
 
@@ -39,14 +25,12 @@ export default function Ucu() {
     const [inputFieldInteger, setInputFieldInteger] = useState(44);
     const [sliderIntegerValue, setSliderIntegerValue] = useState(30);
     const [switchButton, setSwitchButton] = useState(true);
-    const [sliderFloatValue, setSliderFloatValue] = useState(1.5);
+    const [floatValue, setFloatValue] = useState(1.5);
     const [xmlUpload, setXmlUpload] = useState(null);
     const [showSwitchButton, setShowSwitchButton] = useState(false);
     const [showInputField, setShowInputField] = useState(false);
-    const [showFloatSlider, setShowFloatSlider] = useState(false);
+    const [showFloatField, setShowFloatField] = useState(false);
     const [showIntegerSlider, setShowIntegerSlider] = useState(false);
-
-
 
     //it is called whenever something is uploaded and saves the values of the uploaded file to the xmlUpload state
     function uploadXMLHandler(e) {
@@ -65,9 +49,9 @@ export default function Ucu() {
                     setShowSwitchButton(false);
                 }
                 if (fileReader.result.includes("test_r32")) {
-                    setShowFloatSlider(true);
+                    setShowFloatField(true);
                 } else {
-                    setShowFloatSlider(false);
+                    setShowFloatField(false);
                 }
                 if (fileReader.result.includes("test_u8") || fileReader.result.includes("test_i8")) {
                     setShowInputField(true);
@@ -114,14 +98,14 @@ export default function Ucu() {
             .then(res => res.text())
     }
 
-    async function fetchFloatSliderValueData() {
-        fetch('/sf')
+    async function fetchFloatValueData() {
+        fetch('/fv')
             .then(res => res.text())
     }
 
-    async function fetchFloatSliderIntegerValuePutData() {
-        fetch('/sf', {
-            method: 'PUT', body: sliderFloatValues.toString()
+    async function fetchFloatValuePutData() {
+        fetch('/fv', {
+            method: 'PUT', body: floatValue.toString()
         })
             .then(res => res.text())
     }
@@ -150,21 +134,21 @@ export default function Ucu() {
         setSwitchButton(!switchButton);
     }
     //handles the state  and value of the switch button
-    function handleSliderFloatValue(event, value) {
-        setSliderFloatValue(value);
+    function handlefloatValue(event, value) {
+        setFloatValue(event.target.value);
     }
     //handles the functions (asynchronously).
     //frontend <--> backend communication -- GET/PUT requests are fired
     //either when there are some changes in this states on the WebApp or when something comes back from the backend
-     useEffect(() => {
+    useEffect(() => {
         console.log("Switch button is turned " + (switchButton ? 'on' : 'off'));
         console.log('Slider value ' + sliderIntegerValue);
         fetchSwitchButtonData();
         fetchSwitchButtonPutData();
         fetchIntegerSliderValueData();
         fetchIntegerSliderValuePutData();
-        fetchFloatSliderValueData();
-        fetchFloatSliderIntegerValuePutData();
+        fetchFloatValueData();
+        fetchFloatValuePutData();
         fetchInputFieldValueData();
         fetchInputFieldValuePutData();
     });
@@ -173,7 +157,7 @@ export default function Ucu() {
     function handleSubmit() {
         console.log(switchButton);
         console.log(sliderIntegerValue);
-        console.log(sliderFloatValue);
+        console.log(floatValue);
 
         var builder = require('xmlbuilder');
         var xml = builder.create('config', { encoding: 'utf-8' })
@@ -230,7 +214,7 @@ export default function Ucu() {
                 'min': '0',
                 'max': '0',
                 'type': 'float32'
-            }, sliderFloatValue).up()
+            }, floatValue).up()
             .ele('element', {
                 'name': 'test_b',
                 'init': '0',
@@ -287,7 +271,7 @@ export default function Ucu() {
                 'min': '0',
                 'max': '0',
                 'type': 'float32'
-            }, sliderFloatValue).up()
+            }, floatValue).up()
             .ele('element', {
                 'name': 'test_b',
                 'init': '0',
@@ -361,6 +345,17 @@ export default function Ucu() {
                     </div>
                     : null
                 }
+                {showFloatField ?
+                    <div className="InputFieldFloat">
+                        <TextField type="float"
+                            variant="outlined"
+                            label="Float Values Fields"
+                            InputLabelProps={{ style: { color: '#DBD5D5' }, }}
+                            onChange={handlefloatValue} />
+                    </div>
+                    :
+                    null
+                }
 
                 {showIntegerSlider ?
                     <div className="Integerslider">
@@ -386,28 +381,6 @@ export default function Ucu() {
                     </div>
                     : null
                 }
-
-                {showFloatSlider ?
-                    <div className="floatValueDiv">
-                        <Slider
-                            defaultValue={1.5}
-                            aria-labelledby="discrete-slider"
-                            valueLabelDisplay="auto"
-                            step={0.1}
-                            color='primary'
-                            track='inverted'
-                            onChange={handleSliderFloatValue}
-                            marks={sliderFloatValues}
-                            min={0.0}
-                            max={10.0}>
-                        </Slider>
-                        <div>
-                            <span className="sliderFloatValue">Slider Float Value {sliderFloatValue}</span>
-                        </div>
-                    </div>
-                    : null
-                }
-
                 <div className="downloadXML">
                     <Button
                         style={{

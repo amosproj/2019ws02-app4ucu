@@ -1,6 +1,5 @@
 node_modules
 *.onode_modules
 .vs
-
 *.o
 *.a

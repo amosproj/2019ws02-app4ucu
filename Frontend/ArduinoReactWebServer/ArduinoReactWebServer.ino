@@ -29,6 +29,8 @@ WiFiServer server(80);
 Application app;
 bool switchButtonOn;
 String intValue;
+String floatValue;
+String inputFieldValue;
 uint32_t getCRC(uint32_t message[], uint32_t length)
 {
   uint8_t i, j, crc = 0;
@@ -64,6 +66,26 @@ void updateIntegerValue(Request &req, Response &res) {
   return readIntegerValue(req, res);
 }
 
+void readFloatValue(Request &req, Response &res) {
+  res.println(floatValue);
+}
+
+ void updateFloatValue(Request &req, Response &res) {
+  floatValue = req.read();
+  sendData = floatValue;
+  return readFloatValue(req, res);
+}
+
+void readInputFieldIntegerValue(Request &req, Response &res) {
+  res.println(inputFieldValue);
+}
+
+ void updateInputFieldIntegerValue(Request &req, Response &res) {
+  inputFieldValue = req.read();
+  sendData = inputFieldValue.toInt();
+  return readInputFieldIntegerValue(req, res);
+}
+
 
 void setup() {
   Serial.begin(115200);
@@ -90,9 +112,15 @@ void setup() {
 
   app.get("/sb", &readSwitchButtonValue);
   app.get("/sv", &readIntegerValue);
+  app.get("/fv", &readFloatValue);
+  app.get("/ifv", &readInputFieldIntegerValue);
+ 
 
   app.put("/sb", &updateSwitchButtonValue);
   app.put("/sv", &updateIntegerValue);
+  app.put("/fv", &updateFloatValue);
+  app.put("/ifv", &updateInputFieldIntegerValue);
+ 
 
   app.route(staticFiles());
   //Configuration for the SPI bus
