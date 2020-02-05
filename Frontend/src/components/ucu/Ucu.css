@@ -37,6 +37,12 @@
     color: #be2a92bd
 }
 
+.InputFieldFloat {
+    margin-top: 2%;
+    margin-left: 10%;
+    color: #be2a92bd
+}
+
 table,th,td {
     border : 1px solid black;
     border-collapse: collapse;

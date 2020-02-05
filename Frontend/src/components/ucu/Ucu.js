@@ -347,7 +347,9 @@ export default function Ucu() {
                 }
                 {showFloatField ?
                     <div className="InputFieldFloat">
-                        <TextField type="float"
+                        <TextField
+                            id="InputFieldFloat"
+                            type="float"
                             variant="outlined"
                             label="Float Values Fields"
                             InputLabelProps={{ style: { color: '#DBD5D5' }, }}
